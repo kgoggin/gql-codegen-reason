@@ -7,6 +7,8 @@ external fromNode : node => 'a = "%identity";
 
 exception IdNotFetched(string);
 
+type decoder('graphqlType) = Js.Json.t => 'graphqlType;
+
 let optionalField = (fieldName, decoder) =>
   Json.Decode.(optional(field(fieldName, decoder)));
 

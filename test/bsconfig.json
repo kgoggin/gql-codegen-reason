@@ -1,0 +1,23 @@
+{
+  "name": "gql-reason-codegen-test",
+  "reason": {
+    "react-jsx": 2
+  },
+  "sources": [
+    {
+      "dir": "__tests__",
+      "subdirs": true
+    },
+    {
+      "dir": "build"
+    }
+  ],
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "namespace": true,
+  "bs-dependencies": ["@glennsl/bs-jest", "@glennsl/bs-json"],
+  "refmt": 3,
+  "suffix": ".bs.js"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "gql-codegen-reason-tester",
+  "dependencies": {
+    "@glennsl/bs-json": "2.0.0",
+    "bs-platform": "3.1",
+    "graphql": "^0.13.2",
+    "graphql-code-generator": "^0.10.6"
+  },
+  "devDependencies": {
+    "@glennsl/bs-jest": "^0.4.2",
+    "jest": "^23.4.2"
+  },
+  "scripts": {
+    "codegen": "gql-gen --schema ./testSchema.js --template ../src/index.bs.js --out ./build",
+    "build": "bsb -clean-world -make-world",
+    "test": "yarn codegen && yarn build && jest",
+    "bsb:watch": "bsb -make-world -w"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}

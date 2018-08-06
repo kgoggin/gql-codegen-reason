@@ -1,5 +1,0 @@
-type query = {
-		author: option(Js.null(author)),
-	} and author = {
-		firstName: option(Js.null(string)),,lastName: option(Js.null(string)),
-	} and ;

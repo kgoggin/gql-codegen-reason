@@ -9,7 +9,7 @@ const sdlSchema = `
     firstName: String
     lastName: String
 		age: Int!
-		posts: [Post]
+		posts: [Post!]!
   }
   type Query {
     author(id: Int!): Author

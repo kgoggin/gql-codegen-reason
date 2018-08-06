@@ -31,7 +31,7 @@ let stringOfNullableFieldType =
   fun
   | Nullable(t) => {
       let s = t |> stringOfFieldType;
-      {j|Js.null($s)|j};
+      {j|Js.Null.t($s)|j};
     }
   | NonNullable(t) => t |> stringOfFieldType;
 

@@ -8,16 +8,22 @@ let default: js => array(File.t) =
     let typeDefs = TypeDef.make(types);
     let decoders = Decode.make(types);
     let encoders = Encode.make(types);
+    let static = StaticHelpers.make();
     [|
       File.t(
-        ~filename="thing.re",
-        ~content={j|
+        ~filename="GQLTypes.re",
+        ~content=
+          {j|
+			$static
+
 			$typeDefs
 
 			$decoders
 
 			$encoders
-		|j},
+		|j}
+          |> Reason.parseRE
+          |> Reason.printRE,
       ),
     |];
   };

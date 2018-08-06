@@ -40,6 +40,9 @@ let renderDecodeFn = decoders => {j|
 		(t, json) =>
 			switch (t) {$decoders
 			};
+
+		let decodeType: (gqlType, Js.Json.t) => 'a =
+		  (t, j) => decode(t, j) |> fromNode;
 	|j};
 
 let make = types => {

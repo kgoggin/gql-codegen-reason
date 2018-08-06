@@ -1,5 +1,5 @@
 {
-  "name": "gql-codegen",
+  "name": "gql-codegen-reason",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -8,12 +8,13 @@
     "graphql-code-generator": "^0.10.5"
   },
   "scripts": {
-    "go-test": "gql-gen --schema ./schema.js --template ./template-tester.js --out ./out",
-    "go": "gql-gen --schema ./schema.js --template ./src/index.bs.js --out ./out",
-    "bsb:watch": "bsb -make-world -w"
+    "go-test": "gql-gen --schema ./__tests__/testSchema.js --template ./template-tester.js --out ./build",
+    "bsb:watch": "bsb -make-world -w",
+    "build": "bsb -clean-world -make-world",
+    "postinstall": "cd ./test && yarn"
   },
   "dependencies": {
-    "bs-platform": "3",
+    "bs-platform": "^3.1",
     "lodash": "^4.17.10",
     "reason": "^3.1.0"
   }

@@ -14,8 +14,9 @@ let renderField = (prev, field: Field.t) => {
   let wrapper =
     switch (fieldType, isNullable, field.isArray) {
     | (Custom(_n), _, true) => "optionalNodeList"
-    | (Custom(_n), false, false) => "nullable"
-    | (Custom(_n), true, false) => "optionalNullable"
+    | (Custom(_n), false, false) => "nullableNode"
+    | (Custom(_n), true, false) => "optionalNullableNode"
+    | (_, true, _) => "optionalNullable"
     | _ => "nullable"
     };
   let encoder =
@@ -39,7 +40,7 @@ let renderTypeWrapper = (name, fields) => {
   {j|
 	| $pascalName =>
 	let $nodeRecordVariableName: $name = record |> fromNode;
-	Json.Encode(
+	Json.Encode.(
 		[
 			$fields
 		]
