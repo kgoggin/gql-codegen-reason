@@ -1,7 +1,10 @@
+open Types;
+
 type fieldType =
   | Int
   | String
   | Bool
+  | Float
   | Custom(string);
 
 type nullableFieldType =
@@ -21,6 +24,7 @@ let stringOfFieldType =
   | Int => "int"
   | String => "string"
   | Bool => "bool"
+  | Float => "float"
   | Custom(t) => t;
 
 let stringOfNullableFieldType =

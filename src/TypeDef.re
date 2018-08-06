@@ -1,5 +1,7 @@
 open Context;
 
+open Types;
+
 let wrapWithOption = s => {j|option($s)|j};
 
 let wrapWithList = (shouldWrap, s) => shouldWrap ? {j|list($s)|j} : s;

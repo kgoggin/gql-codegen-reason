@@ -126,9 +126,9 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-bs-platform@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.3.tgz#4510c1c915cc5b169b5717e5c0ada52d3f99ff98"
+bs-platform@3:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-3.1.5.tgz#fb34ee4702bc9163848d5537096c4f31ebaeed40"
 
 camel-case@^3.0.0:
   version "3.0.0"
@@ -631,6 +631,10 @@ punycode@^1.4.1:
 qs@~6.5.1:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
+
+reason@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/reason/-/reason-3.1.0.tgz#05d99ced34725f4bc736f3a264c606c84d44edc0"
 
 repeat-string@^1.5.2:
   version "1.6.1"

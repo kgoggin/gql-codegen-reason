@@ -13,7 +13,8 @@
     "bsb:watch": "bsb -make-world -w"
   },
   "dependencies": {
-    "bs-platform": "^4.0.3",
-    "lodash": "^4.17.10"
+    "bs-platform": "3",
+    "lodash": "^4.17.10",
+    "reason": "^3.1.0"
   }
 }
