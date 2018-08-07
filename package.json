@@ -4,11 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "graphql": "^0.13.2",
     "graphql-code-generator": "^0.10.5"
   },
+  "main": "./src/Codegen.bs.js",
   "scripts": {
-    "go-test": "gql-gen --schema ./__tests__/testSchema.js --template ./template-tester.js --out ./build",
     "bsb:watch": "bsb -make-world -w",
     "build": "bsb -clean-world -make-world",
     "postinstall": "cd ./test && yarn"

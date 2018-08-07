@@ -35,6 +35,17 @@ let renderTypeWrapper = (typeName, fields) => {j|
 
 let renderGQLVariants = names => {j|type gqlType = $names;|j};
 
+let renderEnum = (prev, enum: Enum.t) => {
+  let pascal = enum.name |> Lodash.pascalCase;
+  let camel = enum.name |> Lodash.camelCase;
+  let converterName = camel ++ "FromJs";
+  {j|$prev
+	| $pascal =>
+		let str = Json.Decode.string(json);
+		str |> $converterName |> toNode;
+	|j};
+};
+
 let renderDecodeFn = decoders => {j|
 		let rec decode: (gqlType, Js.Json.t) => node =
 		(t, json) =>
@@ -45,7 +56,7 @@ let renderDecodeFn = decoders => {j|
 		  (t, j) => decode(t, j) |> fromNode;
 	|j};
 
-let make = types => {
+let make = (types, enums) => {
   let (typeNames, decoders) =
     types
     |> Array.fold_left(
@@ -66,5 +77,17 @@ let make = types => {
            },
          ("", ""),
        );
-  renderGQLVariants(typeNames) ++ " " ++ renderDecodeFn(decoders);
+  let typeNamesIncludingEnums =
+    enums
+    |> Array.fold_left(
+         (prev, enum: Enum.t) => {
+           let pascal = enum.name |> Lodash.pascalCase;
+           {j|$prev | $pascal |j};
+         },
+         typeNames,
+       );
+  let decodersIncludingEnums = enums |> Array.fold_left(renderEnum, decoders);
+  renderGQLVariants(typeNamesIncludingEnums)
+  ++ " "
+  ++ renderDecodeFn(decodersIncludingEnums);
 };

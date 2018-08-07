@@ -10,9 +10,11 @@ describe("Encode/Decode", (function () {
         Jest.test("Post with null field", (function () {
                 var post_000 = /* title : Some */["My Post"];
                 var post_001 = /* author : Some */[null];
+                var post_002 = /* status : Some */[/* Published */-358147186];
                 var post = /* record */[
                   post_000,
-                  post_001
+                  post_001,
+                  post_002
                 ];
                 var json = GQLTypes$GqlReasonCodegenTest.encodeNode(/* Post */2, post);
                 var decodedPost = GQLTypes$GqlReasonCodegenTest.decodeType(/* Post */2, json);
@@ -30,9 +32,11 @@ describe("Encode/Decode", (function () {
                       ];
                       var post_000 = /* title : Some */["My Post"];
                       var post_001 = /* author : Some */[author];
+                      var post_002 = /* status : Some */[/* Draft */-219956991];
                       var post = /* record */[
                         post_000,
-                        post_001
+                        post_001,
+                        post_002
                       ];
                       var authorWithPost_000 = author_000;
                       var authorWithPost_001 = author_001;

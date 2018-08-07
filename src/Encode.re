@@ -14,7 +14,7 @@ let renderField = (prev, field: Field.t) => {
   let wrapper =
     switch (fieldType, isNullable, field.isArray) {
     | (Custom(_n), _, true) => "optionalNodeList"
-    | (Custom(_n), false, false) => "nullableNode"
+    | (Custom(_n), false, false) => "optionalNode"
     | (Custom(_n), true, false) => "optionalNullableNode"
     | (_, true, _) => "optionalNullable"
     | _ => "nullable"
@@ -57,20 +57,35 @@ let renderEncodeFn = encoders => {j|
 		};
 |j};
 
-let make = types =>
-  types
-  |> Array.fold_left(
-       (prev, t: Type.t) =>
-         switch (t.name) {
-         | Custom(name) =>
-           prev
-           ++ (
-             t.fields
-             |> Array.fold_left(renderField, "")
-             |> renderTypeWrapper(name)
-           )
-         | _ => prev
+let make = (types, enums) => {
+  let typeStr =
+    types
+    |> Array.fold_left(
+         (prev, t: Type.t) =>
+           switch (t.name) {
+           | Custom(name) =>
+             prev
+             ++ (
+               t.fields
+               |> Array.fold_left(renderField, "")
+               |> renderTypeWrapper(name)
+             )
+           | _ => prev
+           },
+         "",
+       );
+  let enumStr =
+    enums
+    |> Array.fold_left(
+         (prev, enum: Enum.t) => {
+           let pascal = enum.name |> Lodash.pascalCase;
+           let camel = enum.name |> Lodash.camelCase;
+           let converterName = camel ++ "ToJs";
+           {j|$prev
+					| $pascal => record |> fromNode |> $converterName |> Json.Encode.string
+			|j};
          },
-       "",
-     )
-  |> renderEncodeFn;
+         typeStr,
+       );
+  renderEncodeFn(enumStr);
+};

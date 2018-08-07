@@ -91,12 +91,54 @@ module Type = {
     };
 };
 
+module Enum = {
+  [@bs.deriving abstract]
+  type jsValue = {
+    [@bs.as "name"]
+    nameOfVal: string,
+    value: string,
+  };
+  [@bs.deriving abstract]
+  type js = {
+    name: string,
+    values: array(jsValue),
+  };
+  type value = {
+    name: string,
+    value: string,
+  };
+  type t = {
+    name: string,
+    values: array(value),
+  };
+  let decode: js => t =
+    t => {
+      name: t |. name,
+      values:
+        t
+        |. values
+        |> Array.map((v: jsValue) =>
+             {name: v |. nameOfVal, value: v |. value}
+           ),
+    };
+};
+
 [@bs.deriving abstract]
-type js = {types: array(Type.js)};
+type js = {
+  types: array(Type.js),
+  enums: array(Enum.js),
+};
 
-type t = {types: array(Type.t)};
+type t = {
+  types: array(Type.t),
+  enums: array(Enum.t),
+};
 
-let decode: js => t = t => {types: t |. types |> Array.map(Type.decode)};
+let decode: js => t =
+  t => {
+    types: t |. types |> Array.map(Type.decode),
+    enums: t |. enums |> Array.map(Enum.decode),
+  };
 
 module File = {
   [@bs.deriving abstract]

@@ -5,7 +5,11 @@ open GQLTypes;
 describe("Encode/Decode", () => {
   open Expect;
   test("Post with null field", () => {
-    let post: post = {title: Some("My Post"), author: Some(Js.null)};
+    let post: post = {
+      title: Some("My Post"),
+      author: Some(Js.null),
+      status: Some(`Published),
+    };
     let json = post |> toNode |> encodeNode(Post);
     let decodedPost: post = json |> decodeType(Post);
     expect(Js.Option.getExn(decodedPost.title)) |> toBe("My Post");
@@ -20,6 +24,7 @@ describe("Encode/Decode", () => {
     let post: post = {
       title: Some("My Post"),
       author: Some(Js.Null.return(author)),
+      status: Some(`Draft),
     };
     let authorWithPost = {...author, posts: Some([post])};
     let json = authorWithPost |> toNode |> encodeNode(Author);

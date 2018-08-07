@@ -11,7 +11,8 @@
     "jest": "^23.4.2"
   },
   "scripts": {
-    "codegen": "gql-gen --schema ./testSchema.js --template ../src/index.bs.js --out ./build",
+    "codegen": "gql-gen --schema ./testSchema.js --template ../src/Codegen.bs.js --out ./build",
+    "go-test": "gql-gen --schema ./testSchema.js --template ./template-tester.js --out ./build",
     "build": "bsb -clean-world -make-world",
     "test": "yarn codegen && yarn build && jest",
     "bsb:watch": "bsb -make-world -w"

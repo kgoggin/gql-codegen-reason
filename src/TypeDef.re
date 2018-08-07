@@ -23,7 +23,26 @@ let typeDef = (name, fields) => {
 	}|j};
 };
 
-let make = types => {
+let renderEnum = (prev, enum: Enum.t) => {
+  let values =
+    enum.values
+    |> Array.fold_left(
+         (prev, value: Enum.value) => {
+           let upper = value.name |> Lodash.toUpper;
+           let pascal = value.name |> Lodash.pascalCase;
+           {j|$prev | [@bs.as "$upper"] `$pascal|j};
+         },
+         "",
+       );
+  let name = enum.name |> Lodash.camelCase;
+  {j|$prev
+		[@bs.deriving jsConverter]
+		type $name = [$values];
+	|j};
+};
+
+let make = (types, enums) => {
+  let enumStr = enums |> Array.fold_left(renderEnum, "");
   let typesStr =
     types
     |> Array.map((t: Type.t) =>
@@ -42,5 +61,6 @@ let make = types => {
        );
   /* take out the last "and" */
   let final = String.sub(typesStr, 0, String.length(typesStr) - 5);
-  {j|$final;|j};
+  {j|$enumStr
+		$final;|j};
 };

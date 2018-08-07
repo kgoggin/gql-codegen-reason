@@ -3,11 +3,11 @@ open Context;
 open Types;
 
 let default: js => array(File.t) =
-  context => {
-    let types = (context |> decode).types;
-    let typeDefs = TypeDef.make(types);
-    let decoders = Decode.make(types);
-    let encoders = Encode.make(types);
+  jsContext => {
+    let context = jsContext |> decode;
+    let typeDefs = TypeDef.make(context.types, context.enums);
+    let decoders = Decode.make(context.types, context.enums);
+    let encoders = Encode.make(context.types, context.enums);
     let static = StaticHelpers.make();
     [|
       File.t(

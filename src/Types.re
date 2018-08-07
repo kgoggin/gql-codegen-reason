@@ -1,6 +1,7 @@
 module Lodash = {
   [@bs.module "lodash"] external camelCase : string => string = "camelCase";
   [@bs.module "lodash"] external upperFirst : string => string = "upperFirst";
+  [@bs.module "lodash"] external toUpper : string => string = "toUpper";
   let pascalCase = str => str |> camelCase |> upperFirst;
 };
 

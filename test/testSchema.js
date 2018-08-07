@@ -1,9 +1,14 @@
 const {buildSchema} = require('graphql');
 
 const sdlSchema = `
+	enum PostStatus {
+		DRAFT
+		PUBLISHED
+	}
 	type Post {
 		title: String!
 		author: Author
+		status: PostStatus!
 	}
   type Author {
     firstName: String
