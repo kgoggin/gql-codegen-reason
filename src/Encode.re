@@ -11,28 +11,36 @@ let renderField = (prev, field: Field.t) => {
     | Nullable(kind) => (true, kind)
     | NonNullable(kind) => (false, kind)
     };
-  let wrapper =
-    switch (fieldType, isNullable, field.isArray) {
-    | (Custom(_n), _, true) => "optionalNodeList"
-    | (Custom(_n), false, false) => "optionalNode"
-    | (Custom(_n), true, false) => "optionalNullableNode"
-    | (_, true, _) => "optionalNullable"
-    | _ => "nullable"
-    };
-  let encoder =
-    switch (fieldType) {
-    | String => "Json.Encode.string"
-    | Int => "Json.Encode.int"
-    | Float => "Json.Encode.float"
-    | Bool => "Json.Encode.bool"
-    | Custom(n) =>
-      let typeName = n |> Lodash.pascalCase;
-      {j|encodeNode($typeName)|j};
-    };
-  {j|
+  if (fieldType === ID && name === "id") {
+    {j|
+		$prev
+		("id", Json.Encode.string($nodeRecordVariableName.$name)),
+		|j};
+  } else {
+    let wrapper =
+      switch (fieldType, isNullable, field.isArray) {
+      | (Custom(_n), _, true) => "optionalNodeList"
+      | (Custom(_n), false, false) => "optionalNode"
+      | (Custom(_n), true, false) => "optionalNullableNode"
+      | (_, true, _) => "optionalNullable"
+      | _ => "nullable"
+      };
+    let encoder =
+      switch (fieldType) {
+      | ID
+      | String => "Json.Encode.string"
+      | Int => "Json.Encode.int"
+      | Float => "Json.Encode.float"
+      | Bool => "Json.Encode.bool"
+      | Custom(n) =>
+        let typeName = n |> Lodash.pascalCase;
+        {j|encodeNode($typeName)|j};
+      };
+    {j|
 	$prev
 	("$name", $wrapper($encoder, $nodeRecordVariableName.$name)),
 	|j};
+  };
 };
 
 let renderTypeWrapper = (name, fields) => {

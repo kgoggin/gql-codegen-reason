@@ -8,54 +8,58 @@ var GQLTypes$GqlReasonCodegenTest = require("../build/GQLTypes.bs.js");
 
 describe("Encode/Decode", (function () {
         Jest.test("Post with null field", (function () {
-                var post_000 = /* title : Some */["My Post"];
-                var post_001 = /* author : Some */[null];
-                var post_002 = /* status : Some */[/* Published */-358147186];
+                var post_001 = /* title : Some */["My Post"];
+                var post_002 = /* author : Some */[null];
+                var post_003 = /* status : Some */[/* Published */-358147186];
                 var post = /* record */[
-                  post_000,
+                  /* id */"abc123",
                   post_001,
-                  post_002
+                  post_002,
+                  post_003
                 ];
                 var json = GQLTypes$GqlReasonCodegenTest.encodeNode(/* Post */2, post);
                 var decodedPost = GQLTypes$GqlReasonCodegenTest.decodeType(/* Post */2, json);
-                return Jest.Expect[/* toBe */2]("My Post", Jest.Expect[/* expect */0](Js_option.getExn(decodedPost[/* title */0])));
+                return Jest.Expect[/* toBe */2]("My Post", Jest.Expect[/* expect */0](Js_option.getExn(decodedPost[/* title */1])));
               }));
         return Jest.test("Author with Posts", (function () {
-                      var author_000 = /* firstName : Some */["Tom"];
-                      var author_001 = /* lastName : Some */["Clancy"];
-                      var author_002 = /* age : Some */[99];
+                      var author_001 = /* firstName : Some */["Tom"];
+                      var author_002 = /* lastName : Some */["Clancy"];
+                      var author_003 = /* age : Some */[99];
                       var author = /* record */[
-                        author_000,
+                        /* id */"abc123",
                         author_001,
                         author_002,
+                        author_003,
                         /* posts : None */0
                       ];
-                      var post_000 = /* title : Some */["My Post"];
-                      var post_001 = /* author : Some */[author];
-                      var post_002 = /* status : Some */[/* Draft */-219956991];
+                      var post_001 = /* title : Some */["My Post"];
+                      var post_002 = /* author : Some */[author];
+                      var post_003 = /* status : Some */[/* Draft */-219956991];
                       var post = /* record */[
-                        post_000,
+                        /* id */"abc123",
                         post_001,
-                        post_002
+                        post_002,
+                        post_003
                       ];
-                      var authorWithPost_000 = author_000;
                       var authorWithPost_001 = author_001;
-                      var authorWithPost_002 = /* age : Some */[99];
-                      var authorWithPost_003 = /* posts : Some */[/* :: */[
+                      var authorWithPost_002 = author_002;
+                      var authorWithPost_003 = /* age : Some */[99];
+                      var authorWithPost_004 = /* posts : Some */[/* :: */[
                           post,
                           /* [] */0
                         ]];
                       var authorWithPost = /* record */[
-                        authorWithPost_000,
+                        /* id */"abc123",
                         authorWithPost_001,
                         authorWithPost_002,
-                        authorWithPost_003
+                        authorWithPost_003,
+                        authorWithPost_004
                       ];
                       var json = GQLTypes$GqlReasonCodegenTest.encodeNode(/* Author */1, authorWithPost);
                       var decodedAuthor = GQLTypes$GqlReasonCodegenTest.decodeType(/* Author */1, json);
                       var hasPost = List.exists((function (p) {
-                              return Js_option.getExn(p[/* title */0]) === "My Post";
-                            }), Js_option.getExn(decodedAuthor[/* posts */3]));
+                              return Js_option.getExn(p[/* title */1]) === "My Post";
+                            }), Js_option.getExn(decodedAuthor[/* posts */4]));
                       return Jest.Expect[/* toBe */2](true, Jest.Expect[/* expect */0](hasPost));
                     }));
       }));

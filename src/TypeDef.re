@@ -2,17 +2,24 @@ open Context;
 
 open Types;
 
-let wrapWithOption = s => {j|option($s)|j};
+let wrapWithOption = (fieldType, s) =>
+  switch (fieldType) {
+  | ID => s
+  | _ => {j|option($s)|j}
+  };
 
 let wrapWithList = (shouldWrap, s) => shouldWrap ? {j|list($s)|j} : s;
 
 let fieldDef = (f: Field.t) => {
   let fieldName = f.name;
+  let unwrappedFieldType =
+    f.type_ |> stringOfNullableFieldType |> wrapWithList(f.isArray);
   let fieldType =
-    f.type_
-    |> stringOfNullableFieldType
-    |> wrapWithList(f.isArray)
-    |> wrapWithOption;
+    switch (f.type_) {
+    | Nullable(fieldType) => unwrappedFieldType |> wrapWithOption(fieldType)
+    | NonNullable(fieldType) =>
+      unwrappedFieldType |> wrapWithOption(fieldType)
+    };
   {j|$fieldName: $fieldType|j};
 };
 

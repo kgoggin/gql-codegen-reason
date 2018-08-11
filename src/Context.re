@@ -5,6 +5,7 @@ type fieldType =
   | String
   | Bool
   | Float
+  | ID
   | Custom(string);
 
 type nullableFieldType =
@@ -16,6 +17,7 @@ let stringToFieldType = t =>
   | "Int" => Int
   | "String" => String
   | "Boolean" => Bool
+  | "ID" => ID
   | n => Custom(n |> Lodash.camelCase)
   };
 
@@ -25,6 +27,7 @@ let stringOfFieldType =
   | String => "string"
   | Bool => "bool"
   | Float => "float"
+  | ID => "string"
   | Custom(t) => t;
 
 let stringOfNullableFieldType =

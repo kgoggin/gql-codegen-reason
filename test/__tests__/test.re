@@ -6,6 +6,7 @@ describe("Encode/Decode", () => {
   open Expect;
   test("Post with null field", () => {
     let post: post = {
+      id: "abc123",
       title: Some("My Post"),
       author: Some(Js.null),
       status: Some(`Published),
@@ -16,12 +17,14 @@ describe("Encode/Decode", () => {
   });
   test("Author with Posts", () => {
     let author: author = {
+      id: "abc123",
       firstName: Some(Js.Null.return("Tom")),
       lastName: Some(Js.Null.return("Clancy")),
       age: Some(99),
       posts: None,
     };
     let post: post = {
+      id: "abc123",
       title: Some("My Post"),
       author: Some(Js.Null.return(author)),
       status: Some(`Draft),

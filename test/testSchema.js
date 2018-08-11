@@ -6,11 +6,13 @@ const sdlSchema = `
 		PUBLISHED
 	}
 	type Post {
+		id: ID!
 		title: String!
 		author: Author
 		status: PostStatus!
 	}
   type Author {
+		id: ID!
     firstName: String
     lastName: String
 		age: Int!

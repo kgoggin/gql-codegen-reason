@@ -2,28 +2,36 @@ open Context;
 
 open Types;
 
-let renderField = (prev, field: Field.t) => {
+let renderField = (typeName, prev, field: Field.t) => {
   let name = field.name;
   let (wrapper, fieldType) =
     switch (field.type_) {
     | Nullable(kind) => ("optionalNullableField", kind)
     | NonNullable(kind) => ("optionalField", kind)
     };
-  let baseDecoder =
-    switch (fieldType) {
-    | String => "Json.Decode.string"
-    | Int => "Json.Decode.int"
-    | Float => "Json.Decode.float"
-    | Bool => "Json.Decode.bool"
-    | Custom(n) =>
-      let typeName = n |> Lodash.pascalCase;
-      {j|json => decode($typeName, json) |> fromNode|j};
-    };
-  let finalDecoder = field.isArray ? {j|list($baseDecoder)|j} : baseDecoder;
-  {j|
+  if (fieldType === ID && name === "id") {
+    {j|
+			$prev
+			id: json |> idField("$typeName"),
+			|j};
+  } else {
+    let baseDecoder =
+      switch (fieldType) {
+      | ID
+      | String => "Json.Decode.string"
+      | Int => "Json.Decode.int"
+      | Float => "Json.Decode.float"
+      | Bool => "Json.Decode.bool"
+      | Custom(n) =>
+        let typeName = n |> Lodash.pascalCase;
+        {j|json => decode($typeName, json) |> fromNode|j};
+      };
+    let finalDecoder = field.isArray ? {j|list($baseDecoder)|j} : baseDecoder;
+    {j|
 	$prev
 	$name: json |> $wrapper("$name", $finalDecoder),
 	|j};
+  };
 };
 
 let renderTypeWrapper = (typeName, fields) => {j|
@@ -69,7 +77,7 @@ let make = (types, enums) => {
                prevD
                ++ (
                  t.fields
-                 |> Array.fold_left(renderField, "")
+                 |> Array.fold_left(renderField(pascal), "")
                  |> renderTypeWrapper(pascal)
                ),
              );
