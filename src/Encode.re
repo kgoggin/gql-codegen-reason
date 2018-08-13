@@ -6,19 +6,14 @@ let nodeRecordVariableName = "r";
 
 let renderField = (prev, field: Field.t) => {
   let name = field.name;
-  let (isNullable, fieldType) =
-    switch (field.type_) {
-    | Nullable(kind) => (true, kind)
-    | NonNullable(kind) => (false, kind)
-    };
-  if (fieldType === ID && name === "id" && field.isRequired) {
+  if (field.type_ === ID && name === "id" && field.isRequired) {
     {j|
 		$prev
 		("id", Json.Encode.string($nodeRecordVariableName.$name)),
 		|j};
   } else {
     let wrapper =
-      switch (fieldType, isNullable, field.isArray) {
+      switch (field.type_, ! field.isRequired, field.isArray) {
       | (Custom(_n), _, true) => "optionalNodeList"
       | (Custom(_n), false, false) => "optionalNode"
       | (Custom(_n), true, false) => "optionalNullableNode"
@@ -26,7 +21,7 @@ let renderField = (prev, field: Field.t) => {
       | _ => "nullable"
       };
     let encoder =
-      switch (fieldType) {
+      switch (field.type_) {
       | ID
       | String => "Json.Encode.string"
       | Int => "Json.Encode.int"

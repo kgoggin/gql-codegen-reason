@@ -8,10 +8,6 @@ type fieldType =
   | ID
   | Custom(string);
 
-type nullableFieldType =
-  | Nullable(fieldType)
-  | NonNullable(fieldType);
-
 let stringToFieldType = t =>
   switch (t) {
   | "Int" => Int
@@ -30,14 +26,6 @@ let stringOfFieldType =
   | ID => "string"
   | Custom(t) => t;
 
-let stringOfNullableFieldType =
-  fun
-  | Nullable(t) => {
-      let s = t |> stringOfFieldType;
-      {j|Js.Null.t($s)|j};
-    }
-  | NonNullable(t) => t |> stringOfFieldType;
-
 module Field = {
   [@bs.deriving abstract]
   type js = {
@@ -54,7 +42,7 @@ module Field = {
     description: string,
     isRequired: bool,
     isArray: bool,
-    type_: nullableFieldType,
+    type_: fieldType,
   };
   let decode: js => t =
     t => {
@@ -62,10 +50,7 @@ module Field = {
       description: t |. description,
       isRequired: t |. isRequired,
       isArray: t |. isArray,
-      type_:
-        t |. isRequired ?
-          NonNullable(stringToFieldType(t |. type_)) :
-          Nullable(stringToFieldType(t |. type_)),
+      type_: stringToFieldType(t |. type_),
     };
 };
 

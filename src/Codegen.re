@@ -5,16 +5,11 @@ open Types;
 let default: js => array(File.t) =
   jsContext => {
     let context = jsContext |> decode;
+    let types = Array.concat([context.types, context.inputTypes]);
     let typeDefs =
-      TypeDef.make(
-        Array.concat([context.types, context.inputTypes]),
-        context.enums,
-      );
-    let decoders =
-      Decode.make(
-        Array.concat([context.types, context.inputTypes]),
-        context.enums,
-      );
+      <TypeDef types enums=context.enums />
+      |> ReactDOMServerRe.renderToStaticMarkup;
+    let decoders = <Decoder types /> |> ReactDOMServerRe.renderToStaticMarkup;
     let encoders =
       Encode.make(
         Array.concat([context.types, context.inputTypes]),
