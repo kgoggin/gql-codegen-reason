@@ -129,17 +129,20 @@ module Enum = {
 [@bs.deriving abstract]
 type js = {
   types: array(Type.js),
+  inputTypes: array(Type.js),
   enums: array(Enum.js),
 };
 
 type t = {
   types: array(Type.t),
+  inputTypes: array(Type.t),
   enums: array(Enum.t),
 };
 
 let decode: js => t =
   t => {
     types: t |. types |> Array.map(Type.decode),
+    inputTypes: t |. inputTypes |> Array.map(Type.decode),
     enums: t |. enums |> Array.map(Enum.decode),
   };
 

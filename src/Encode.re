@@ -11,7 +11,7 @@ let renderField = (prev, field: Field.t) => {
     | Nullable(kind) => (true, kind)
     | NonNullable(kind) => (false, kind)
     };
-  if (fieldType === ID && name === "id") {
+  if (fieldType === ID && name === "id" && field.isRequired) {
     {j|
 		$prev
 		("id", Json.Encode.string($nodeRecordVariableName.$name)),

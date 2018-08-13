@@ -2,29 +2,34 @@ open Context;
 
 open Types;
 
-let wrapWithOption = (fieldType, s) =>
-  switch (fieldType) {
-  | ID => s
-  | _ => {j|option($s)|j}
-  };
+let wrapWithOption = (shouldWrap, s) => shouldWrap ? {j|option($s)|j} : s;
 
 let wrapWithList = (shouldWrap, s) => shouldWrap ? {j|list($s)|j} : s;
 
-let fieldDef = (f: Field.t) => {
+let fieldDef = (isInputType, f: Field.t) => {
   let fieldName = f.name;
   let unwrappedFieldType =
     f.type_ |> stringOfNullableFieldType |> wrapWithList(f.isArray);
+  let shouldWrapWithOption = ft =>
+    ! isInputType
+    && (
+      switch (ft) {
+      | ID => f.name === "id"
+      | _ => false
+      }
+    );
   let fieldType =
     switch (f.type_) {
-    | Nullable(fieldType) => unwrappedFieldType |> wrapWithOption(fieldType)
+    | Nullable(fieldType) =>
+      unwrappedFieldType |> wrapWithOption(fieldType |> shouldWrapWithOption)
     | NonNullable(fieldType) =>
-      unwrappedFieldType |> wrapWithOption(fieldType)
+      unwrappedFieldType |> wrapWithOption(fieldType |> shouldWrapWithOption)
     };
   {j|$fieldName: $fieldType|j};
 };
 
-let typeDef = (name, fields) => {
-  let fieldStr = fields |> Array.map(fieldDef);
+let typeDef = (name, fields, isInputType) => {
+  let fieldStr = fields |> Array.map(fieldDef(isInputType));
   {j|$name = {
 		$fieldStr
 	}|j};
@@ -54,7 +59,7 @@ let make = (types, enums) => {
     types
     |> Array.map((t: Type.t) =>
          switch (t.name) {
-         | Custom(n) => typeDef(n, t.fields)
+         | Custom(n) => typeDef(n, t.fields, t.isInputType)
          | _ => ""
          }
        )

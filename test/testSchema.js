@@ -18,8 +18,14 @@ const sdlSchema = `
 		age: Int!
 		posts: [Post!]!
   }
+
+	input AuthorSearch {
+		id: ID
+		firstName: String
+	}
+
   type Query {
-    author(id: Int!): Author
+    author(search: AuthorSearch!): Author
   }
 `;
 

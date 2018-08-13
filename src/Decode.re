@@ -9,7 +9,7 @@ let renderField = (typeName, prev, field: Field.t) => {
     | Nullable(kind) => ("optionalNullableField", kind)
     | NonNullable(kind) => ("optionalField", kind)
     };
-  if (fieldType === ID && name === "id") {
+  if (fieldType === ID && name === "id" && field.isRequired) {
     {j|
 			$prev
 			id: json |> idField("$typeName"),
