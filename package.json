@@ -1,12 +1,11 @@
 {
   "name": "gql-codegen-reason",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./src/Codegen.bs.js",
   "license": "MIT",
   "devDependencies": {
     "graphql-code-generator": "^0.10.5"
   },
-  "main": "./src/Codegen.bs.js",
   "scripts": {
     "bsb:watch": "bsb -make-world -w",
     "build": "bsb -clean-world -make-world",
@@ -15,6 +14,9 @@
   "dependencies": {
     "bs-platform": "^3.1",
     "lodash": "^4.17.10",
-    "reason": "^3.1.0"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "reason": "^3.1.0",
+    "reason-react": "^0.5.3"
   }
 }
