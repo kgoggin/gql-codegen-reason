@@ -46,11 +46,11 @@ module Field = {
   };
   let decode: js => t =
     t => {
-      name: t |. name,
-      description: t |. description,
-      isRequired: t |. isRequired,
-      isArray: t |. isArray,
-      type_: stringToFieldType(t |. type_),
+      name: t->nameGet,
+      description: t->descriptionGet,
+      isRequired: t->isRequiredGet,
+      isArray: t->isArrayGet,
+      type_: stringToFieldType(t->type_Get),
     };
 };
 
@@ -72,10 +72,10 @@ module Type = {
   };
   let decode: js => t =
     t => {
-      description: t |. description,
-      isInputType: t |. isInputType,
-      name: stringToFieldType(t |. name),
-      fields: t |. fields |> Array.map(Field.decode),
+      description: t->descriptionGet,
+      isInputType: t->isInputTypeGet,
+      name: stringToFieldType(t->nameGet),
+      fields: t->fieldsGet |> Array.map(Field.decode),
     };
 };
 
@@ -101,12 +101,11 @@ module Enum = {
   };
   let decode: js => t =
     t => {
-      name: t |. name,
+      name: t->nameGet,
       values:
-        t
-        |. values
+        t->valuesGet
         |> Array.map((v: jsValue) =>
-             {name: v |. nameOfVal, value: v |. value}
+             {name: v->nameOfValGet, value: v->valueGet}
            ),
     };
 };
@@ -126,9 +125,9 @@ type t = {
 
 let decode: js => t =
   t => {
-    types: t |. types |> Array.map(Type.decode),
-    inputTypes: t |. inputTypes |> Array.map(Type.decode),
-    enums: t |. enums |> Array.map(Enum.decode),
+    types: t->typesGet |> Array.map(Type.decode),
+    inputTypes: t->inputTypesGet |> Array.map(Type.decode),
+    enums: t->enumsGet |> Array.map(Enum.decode),
   };
 
 module File = {

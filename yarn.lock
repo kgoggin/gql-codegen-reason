@@ -130,9 +130,9 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-bs-platform@^3.1:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-3.1.5.tgz#fb34ee4702bc9163848d5537096c4f31ebaeed40"
+bs-platform@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.5.tgz#d4fd9bbdd11765af5b75110a5655065ece05eed6"
 
 camel-case@^3.0.0:
   version "3.0.0"
@@ -728,9 +728,9 @@ reason-react@^0.5.3:
     react ">=15.0.0 || >=16.0.0"
     react-dom ">=15.0.0 || >=16.0.0"
 
-reason@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/reason/-/reason-3.1.0.tgz#05d99ced34725f4bc736f3a264c606c84d44edc0"
+reason@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/reason/-/reason-3.3.4.tgz#a294ef8aa14fa85c6fd8a7db5dcab053f2382f68"
 
 repeat-string@^1.5.2:
   version "1.6.1"

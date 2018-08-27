@@ -1,56 +1,29 @@
 module Base = {
-  let component = ReasonReact.statelessComponent("OptionWrapper");
-  let make = (~wrapper, ~wrap=true, children) => {
-    ...component,
-    render: _self => {
-      let chldrn = <Fragment> ...children </Fragment>;
-      wrap ?
-        <Fragment>
-          ({j|$wrapper("|j} |> ReasonReact.string)
-          chldrn
-          ({j|")"|j} |> ReasonReact.string)
-        </Fragment> :
-        chldrn;
-    },
-  };
+  let make = (~wrapper, ~wrap=true, children) =>
+    wrap ? {j|$wrapper($children)"|j} : children;
 };
 
 module Null = {
-  let component = ReasonReact.statelessComponent("NullWrapper");
-  let make = (~wrap=true, children) => {
-    ...component,
-    render: _self => <Base wrapper="Js.null" wrap> ...children </Base>,
-  };
+  let make = (~wrap=true, children) =>
+    Base.make(~wrapper="Js.null", ~wrap, children);
 };
 
 module Nullable = {
-  let component = ReasonReact.statelessComponent("NullableWrapper");
-  let make = (~wrap=true, children) => {
-    ...component,
-    render: _self => <Base wrapper="nullable" wrap> ...children </Base>,
-  };
+  let make = (~wrap=true, children) =>
+    Base.make(~wrapper="nullable", ~wrap, children);
 };
 
 module OptionW = {
-  let component = ReasonReact.statelessComponent("OptionWrapper");
-  let make = (~wrap=true, children) => {
-    ...component,
-    render: _self => <Base wrapper="option" wrap> ...children </Base>,
-  };
+  let make = (~wrap=true, children) =>
+    Base.make(~wrapper="option", ~wrap, children);
 };
 
 module Optional = {
-  let component = ReasonReact.statelessComponent("OptionalWrapper");
-  let make = (~wrap=true, children) => {
-    ...component,
-    render: _self => <Base wrapper="optional" wrap> ...children </Base>,
-  };
+  let make = (~wrap=true, children) =>
+    Base.make(~wrapper="optional", ~wrap, children);
 };
 
 module FieldW = {
-  let component = ReasonReact.statelessComponent("FieldWrapper");
-  let make = (~wrap=true, children) => {
-    ...component,
-    render: _self => <Base wrapper="Field" wrap> ...children </Base>,
-  };
+  let make = (~wrap=true, children) =>
+    Base.make(~wrapper="Field", ~wrap, children);
 };

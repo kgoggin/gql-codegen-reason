@@ -12,11 +12,11 @@
     "postinstall": "cd ./test && yarn"
   },
   "dependencies": {
-    "bs-platform": "^3.1",
+    "bs-platform": "^4.0.5",
     "lodash": "^4.17.10",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "reason": "^3.1.0",
+    "reason": "^3.3.4",
     "reason-react": "^0.5.3"
   }
 }
