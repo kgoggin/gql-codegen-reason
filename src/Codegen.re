@@ -10,11 +10,7 @@ let default: js => array(File.t) =
       <TypeDef types enums=context.enums />
       |> ReactDOMServerRe.renderToStaticMarkup;
     let decoders = <Decoder types /> |> ReactDOMServerRe.renderToStaticMarkup;
-    let encoders =
-      Encode.make(
-        Array.concat([context.types, context.inputTypes]),
-        context.enums,
-      );
+    let encoders = <Encoder types /> |> ReactDOMServerRe.renderToStaticMarkup;
     let static = StaticHelpers.make();
     [|
       File.t(
@@ -28,9 +24,9 @@ let default: js => array(File.t) =
 			$decoders
 
 			$encoders
-		|j}
-          |> Reason.parseRE
-          |> Reason.printRE,
+		|j},
+        /* |> Reason.parseRE
+           |> Reason.printRE, */
       ),
     |];
   };
